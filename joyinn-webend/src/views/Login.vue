@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-row type="flex" class="title_area" justify="center">
-      <p class="title">Joyinn</p>
+      <p class="title">Joy Inn</p>
     </el-row>
     <el-row type="flex" class="input_area" justify="center">
       <el-col :span="6">

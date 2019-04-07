@@ -11,6 +11,10 @@
         <el-col :span="4" :offset="1">
           <div class="right_box">
             <myInfocard/>
+            <div class="handle_box">
+              <!-- modal box -->
+              <flyBox />
+            </div>
             <aboutCard class="aboutcard"/>
           </div>
         </el-col>
@@ -25,21 +29,24 @@ import Header from "@/components/Header.vue";
 import sayList from "@/components/sayList.vue";
 import myInfocard from "@/components/myInfocard.vue";
 import aboutCard from "@/components/about.vue";
+import flyBox from "@/components/flyBox.vue";
 import { mapActions } from "vuex";
 
 export default {
   name: "home",
   data() {
-    return {};
+    return {
+    };
   },
   components: {
     Header,
     sayList,
     myInfocard,
-    aboutCard
+    aboutCard,
+    flyBox
   },
   methods: {
-    ...mapActions(["readSays"])
+    ...mapActions(["readSays"]),
   },
   created: function() {
     console.log("【Created Function】");
@@ -53,17 +60,29 @@ export default {
 }
 .mainbody {
 }
-.saylist_box{
+.saylist_box {
   margin-top: 50px;
 }
-.right_box{
+.right_box {
   margin-top: 50px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
-.aboutcard{
+.aboutcard {
   margin-top: 30px;
+}
+.handle_box {
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: flex-start;
+  margin-top: 30px;
+  padding: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 </style>
 
