@@ -11,7 +11,7 @@
         <el-input
           type="textarea"
           :autosize="{ minRows: 3}"
-          placeholder="心情、故事、人生..."
+          placeholder="心情、故事、你在述说着什么"
           v-model="text"
           @change="handleTextChange"
         ></el-input>
