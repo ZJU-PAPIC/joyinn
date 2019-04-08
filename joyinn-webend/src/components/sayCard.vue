@@ -11,7 +11,6 @@
       <!-- <font-awesome-icon icon="heart"></font-awesome-icon> -->
     </div>
     <div class="mainbox">
-      <div class="post_textbox" v-if="postInfo.type!==1">{{postInfo.say_text}}</div>
       <div class="postimgbox" v-if="postInfo.type!==0">
         <!-- <el-carousel 
         indicator-position="outside"
@@ -23,13 +22,19 @@
         </el-carousel>-->
         <swiper :options="swiperOption" style="height: auto">
           <swiper-slide v-for="(item,key) in postimages" :key="key">
-            <img :src="item" ref="imgSize">
+            <div v-if="key===0">
+              <img :src="img_prefix + item" ref="imgSize">
+            </div>
+            <div v-if="key!==0">
+              <img v-lazy="img_prefix + item" ref="imgSize">
+            </div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
-          <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div>
+          <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
+          <!-- <div class="swiper-button-next" slot="button-next"></div> -->
         </swiper>
       </div>
+      <div class="post_textbox" v-if="postInfo.type!==1">{{postInfo.say_text}}</div>
     </div>
   </div>
 </template>
@@ -55,13 +60,13 @@ export default {
   },
   data() {
     return {
+      img_prefix: "http://localhost:3000/uploads/img/",
       swiperOption: {
         autoHeight: true, //enable auto height
         spaceBetween: 30,
         effect: "fade",
         pagination: {
-          el: ".swiper-pagination",
-          type: "progressbar"
+          el: ".swiper-pagination"
         },
         navigation: {
           nextEl: ".swiper-button-next",

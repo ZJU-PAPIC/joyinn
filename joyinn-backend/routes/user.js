@@ -34,7 +34,8 @@ router.post("/login", async function(req, res, next) {
     const token = jwt.sign(
       {
         iss: "joyinn",
-        aud: username
+        aud: username,
+        uid: userinfo_pw[0].uid
       },
       myconfig.jwtSecret,
       {

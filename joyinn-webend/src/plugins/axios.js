@@ -14,59 +14,68 @@ let config = {
   timeout: 60 * 1000 // Timeout
 };
 
-const _axios = axios.create(config);
+const myAxios = function(addconfig) {
+  const _axios = axios.create({ ...config, ...addconfig });
 
-_axios.defaults.headers.post["Content-Type"] = "application/json";
-_axios.defaults.headers.put["Content-Type"] = "application/json";
+  _axios.defaults.headers.post["Content-Type"] = "application/json";
+  _axios.defaults.headers.put["Content-Type"] = "application/json";
 
-_axios.interceptors.request.use(
-  function(config) {
-    // Do something before request is sent
-    const my_token = window.localStorage.getItem("token");
-    if (my_token) {
-      config.headers["Authorization"] = `Bearer ${my_token}`;
+  _axios.interceptors.request.use(
+    function(config) {
+      // Do something before request is sent
+      const my_token = window.localStorage.getItem("token");
+      if (my_token) {
+        config.headers["Authorization"] = `Bearer ${my_token}`;
+      }
+      return config;
+    },
+    function(error) {
+      // Do something with request error
+      return Promise.reject(error);
     }
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+  );
 
-// Add a response interceptor
-_axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    if (response.data.token) {
-      console.log("token:", response.data.token);
-      window.localStorage.setItem("token", response.data.token);
+  // Add a response interceptor
+  _axios.interceptors.response.use(
+    function(response) {
+      // Do something with response data
+      if (response.data.token) {
+        console.log("token:", response.data.token);
+        window.localStorage.setItem("token", response.data.token);
+      }
+      return response;
+    },
+    function(error) {
+      // Do something with response error
+      const errRes = error.response;
+      if (errRes.status === 401) {
+        window.localStorage.removeItem("token");
+        router.push("/login");
+      }
+      return Promise.reject(error);
     }
-    return response;
-  },
-  function(error) {
-    // Do something with response error
-    const errRes = error.response;
-    if (errRes.status === 401) {
-      window.localStorage.removeItem("token");
-      router.push("/login");
-    }
-    return Promise.reject(error);
-  }
-);
+  );
 
+  return _axios;
+};
+const useAxios = myAxios();
 Plugin.install = function(Vue) {
-  Vue.axios = _axios;
-  window.axios = _axios;
+  Vue.axios = useAxios;
+  window.axios = useAxios;
   Object.defineProperties(Vue.prototype, {
     axios: {
       get() {
-        return _axios;
+        return useAxios;
       }
     },
     $axios: {
       get() {
-        return _axios;
+        return useAxios;
+      }
+    },
+    myAxios: {
+      get() {
+        return myAxios;
       }
     }
   });
@@ -74,4 +83,9 @@ Plugin.install = function(Vue) {
 
 Vue.use(Plugin);
 
-export default _axios;
+export default useAxios;
+
+/* 注于2019.4.7
+  * author： wkkk
+  这里对axios做了包装，可以自定义传入config参数
+*/

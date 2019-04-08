@@ -24,6 +24,9 @@ export default new Vuex.Store({
     },
     setSays(state, says) {
       state.says = says;
+    },
+    pushSay(state, say) {
+      state.says.unshift(say);
     }
   },
   actions: {

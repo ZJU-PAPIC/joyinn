@@ -7,6 +7,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var sayRouter = require("./routes/say");
+var uploadRouter = require("./routes/upload");
 
 const expressJWT = require("express-jwt");
 const myconfig = require("./myconfig");
@@ -41,7 +42,7 @@ app.use(
 app.use((req, res, next) => {
   console.log("----------------log debug----------------");
   console.log("reqbody:", req.body);
-  console.log("reqparam:", req.params);
+  console.log("reqparam:", req.query);
   console.log("-----------------------------------------");
 
   next();
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use('/say',sayRouter); //个人动态
+app.use('/upload',uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

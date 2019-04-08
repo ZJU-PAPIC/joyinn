@@ -2,7 +2,7 @@
   <div class="header">
     <el-row type="flex" align="center" justify="space-between">
       <el-col :span="6">
-        <p class="title">Joyinn</p>
+        <p class="title">Joy Inn</p>
       </el-col>
       <el-col :span="6" class="v_center">
         <el-input placeholder="search now" prefix-icon="el-icon-search" v-model="searchText"></el-input>

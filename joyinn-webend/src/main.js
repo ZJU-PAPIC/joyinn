@@ -8,10 +8,32 @@ import "./plugins/element.js";
 import VueAwesomeSwiper from "vue-awesome-swiper";
 import moment from "moment";
 
+// for img lazyload
+Vue.use(VueLazyload, {
+  preLoad: 2,
+  attempt: 1,
+  listenEvents: [
+    "scroll",
+    "wheel",
+    "mousewheel",
+    "resize",
+    "animationend",
+    "transitionend",
+    "touchmove"
+  ]
+});
+import VueLazyload from "vue-lazyload";
+
+// import { MdButton, MdIcon } from "vue-material/dist/components";
+
 // require styles
 import "swiper/dist/css/swiper.css";
+// import "vue-material/dist/vue-material.min.css";
 
 Vue.use(VueAwesomeSwiper);
+
+// Vue.use(MdButton);
+// Vue.use(MdIcon);
 
 Vue.config.productionTip = false;
 
