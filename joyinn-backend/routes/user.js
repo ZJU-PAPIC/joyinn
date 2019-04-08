@@ -3,9 +3,14 @@ var router = express.Router();
 var jwt = require("jsonwebtoken");
 const myconfig = require("../myconfig");
 const query = require("../utils/query");
+const { uniqueUid } = require("../utils/generateString");
+const { randomAvatar } = require("../utils/avatar");
+
 const {
   my_user_info,
-  my_user_info_with_password
+  my_user_info_with_password,
+  is_exist_user,
+  register_user
 } = require("../query/sql-words");
 
 /* GET users listing. */
@@ -18,6 +23,61 @@ router.get("/getuserinfo", async (req, res) => {
   res.json({
     code: 0,
     user: userinfo[0]
+  });
+});
+router.post("/register", async (req, res) => {
+  // 暂时需要邀请码
+  const preInviteCode = "PAPIC2019XYZ";
+  const { username, password, inviteCode, nickname, gender } = req.body;
+  if (preInviteCode !== inviteCode) {
+    res.json({
+      code: 4002,
+      msg: "邀请码错误"
+    });
+    return;
+  }
+  if (
+    username.length < 6 ||
+    username.length > 15 ||
+    password.length < 8 ||
+    password.length > 20
+  ) {
+    res.json({
+      code: 4003,
+      msg: "用户名或密码不符合规范"
+    });
+    return;
+  }
+  const existUser = await query(is_exist_user, [username]);
+  if (existUser[0].count !== 0) {
+    res.json({
+      code: 4001,
+      msg: "已有该用户"
+    });
+    return;
+  }
+  // start to register
+  // generate uid
+  const uid = uniqueUid();
+  console.log("generate uid:", uid);
+  // generate avatar
+  const avatar = randomAvatar;
+  console.log("generate avatar:", avatar);
+  // insert into user
+  const regUser = await query(register_user, [
+    uid,
+    nickname,
+    gender,
+    username,
+    password,
+    avatar
+  ]);
+  console.log('regUser result:',regUser);
+  
+  res.json({
+    code: 0,
+    msg: "注册成功",
+    // insertId: regUser[0].insertId
   });
 });
 router.post("/login", async function(req, res, next) {

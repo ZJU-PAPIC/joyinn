@@ -3,7 +3,7 @@
     <div class="headbox">
       <div class="leftbox">
         <div class="avatar">
-          <img :src="postInfo.avatar">
+          <img :src="avatar_prefix+postInfo.avatar">
         </div>
         <div class="nickname">{{postInfo.nick_name}}</div>
       </div>
@@ -34,13 +34,16 @@
           <!-- <div class="swiper-button-next" slot="button-next"></div> -->
         </swiper>
       </div>
-      <div class="post_textbox" v-if="postInfo.type!==1">{{postInfo.say_text}}</div>
+      <div class="post_textbox" v-if="postInfo.type!==1">
+        <span class="text_left_nickname">@{{postInfo.nick_name}}</span>
+        {{postInfo.say_text}}
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { fromNow } from "../utils/handleTime";
-
+import { img_prefix, avatar_prefix } from "../utils/myconfig";
 export default {
   props: {
     postInfo: {
@@ -60,7 +63,8 @@ export default {
   },
   data() {
     return {
-      img_prefix: "http://localhost:3000/uploads/img/",
+      avatar_prefix: avatar_prefix,
+      img_prefix: img_prefix,
       swiperOption: {
         autoHeight: true, //enable auto height
         spaceBetween: 30,
@@ -79,6 +83,12 @@ export default {
 };
 </script>
 <style scoped>
+.text_left_nickname{
+  font-size: 12px;
+  font-weight: bold;
+  color: #262626;
+  margin-right: 5px;
+}
 .saycard {
   width: 100%;
   background-color: #fff;

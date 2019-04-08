@@ -1,6 +1,6 @@
 <template>
   <div class="postdialog">
-    <el-button type="primary" icon="el-icon-edit" @click="handleVisible">写动态</el-button>
+    <el-button type="primary" style="width:100%;" icon="el-icon-edit" @click="handleVisible">写动态</el-button>
     <div class="text_box">
       <el-dialog
         title="Say Something"

@@ -35,7 +35,7 @@ app.use(
   expressJWT({
     secret: myconfig.jwtSecret
   }).unless({
-    path: ["/user/login"] //除了这个地址，其他的URL都需要验证
+    path: ["/user/login","/user/register"] //除了这个地址，其他的URL都需要验证
   })
 );
 // log debug
