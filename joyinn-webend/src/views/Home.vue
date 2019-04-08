@@ -13,7 +13,10 @@
             <myInfocard/>
             <div class="handle_box">
               <!-- modal box -->
-              <flyBox />
+              <flyBox/>
+              <el-button type="primary" disabled class="temp-btn" icon="el-icon-edit">发帖子</el-button>
+              <el-button type="primary" disabled class="temp-btn" icon="el-icon-edit">写文章</el-button>
+              <el-button type="primary" disabled class="temp-btn" icon="el-icon-edit">工作日程</el-button>
             </div>
             <aboutCard class="aboutcard"/>
           </div>
@@ -35,8 +38,7 @@ import { mapActions } from "vuex";
 export default {
   name: "home",
   data() {
-    return {
-    };
+    return {};
   },
   components: {
     Header,
@@ -46,7 +48,7 @@ export default {
     flyBox
   },
   methods: {
-    ...mapActions(["readSays"]),
+    ...mapActions(["readSays"])
   },
   created: function() {
     console.log("【Created Function】");
@@ -78,11 +80,15 @@ export default {
   display: flex;
   flex-direction: column;
   height: 200px;
-  justify-content: flex-start;
+  justify-content: space-around;
   margin-top: 30px;
   padding: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.temp-btn {
+  margin-left: 0 !important;
 }
 </style>
 

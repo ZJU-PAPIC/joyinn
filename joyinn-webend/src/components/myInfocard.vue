@@ -1,7 +1,7 @@
 <template>
   <div class="infocard">
     <div class="avatar">
-      <img :src="getMyInfo.avatar">
+      <img :src="avatar_prefix + getMyInfo.avatar">
     </div>
     <div class="other">
       <div class="nickname">{{getMyInfo.nick_name}}</div>
@@ -10,7 +10,14 @@
   </div>
 </template>
 <script>
+import { avatar_prefix } from "../utils/myconfig";
+
 export default {
+  data() {
+    return {
+      avatar_prefix
+    }
+  },
   computed: {
     getMyInfo() {
       return this.$store.state.user.currentUser;
