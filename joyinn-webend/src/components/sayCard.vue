@@ -30,11 +30,20 @@
       <div class="postimgbox" v-if="postInfo.type!==0">
         <swiper :options="swiperOption" style="height: auto">
           <swiper-slide v-for="(item,key) in postimages" :key="key">
-            <div v-if="key===0">
+            <!-- 一种实现lazy load的方式 -->
+            <!-- <div v-if="key===0">
               <img :src="img_prefix + item" ref="imgSize">
             </div>
             <div v-if="key!==0">
               <img v-lazy="img_prefix + item" ref="imgSize">
+            </div>-->
+            <!-- 采用swiper自带的lazy load -->
+            <div v-if="key===0">
+              <img :src="img_prefix + item" ref="imgSize">
+            </div>
+            <div v-else>
+              <img :src="img_prefix + item" ref="imgSize" class="swiper-lazy">
+              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
@@ -75,6 +84,7 @@ export default {
       avatar_prefix: avatar_prefix,
       img_prefix: img_prefix,
       swiperOption: {
+        lazy: true, // lazy load picture
         autoHeight: true, //enable auto height
         spaceBetween: 30,
         effect: "fade",
