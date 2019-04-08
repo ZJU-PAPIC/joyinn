@@ -1,25 +1,33 @@
 <template>
   <div class="saycard">
     <div class="headbox">
-      <div class="leftbox">
+      <div v-if="postInfo.uid !== getCurrentUser.uid">
+        <el-popover placement="right" width="200" trigger="hover">
+          <div class="leftbox" slot="reference">
+            <div class="avatar">
+              <img :src="avatar_prefix+postInfo.avatar">
+            </div>
+            <div class="nickname">{{postInfo.nick_name}}</div>
+          </div>
+          <div class="popover_content">
+            <div class="title">@{{postInfo.nick_name}}</div>
+            <div class="login_time">
+              <span>最后一次登录：</span>
+              {{get_fromTime(postInfo.last_login_time)}}
+            </div>
+          </div>
+        </el-popover>
+      </div>
+      <div class="leftbox" v-else>
         <div class="avatar">
           <img :src="avatar_prefix+postInfo.avatar">
         </div>
         <div class="nickname">{{postInfo.nick_name}}</div>
       </div>
       <div class="datetime">{{convertTime}}</div>
-      <!-- <font-awesome-icon icon="heart"></font-awesome-icon> -->
     </div>
     <div class="mainbox">
       <div class="postimgbox" v-if="postInfo.type!==0">
-        <!-- <el-carousel 
-        indicator-position="outside"
-        :interval="5000"
-        >
-          <el-carousel-item v-for="(item,key) in postimages" :key="key">
-            <img :src="item" ref="imgSize">
-          </el-carousel-item>
-        </el-carousel>-->
         <swiper :options="swiperOption" style="height: auto">
           <swiper-slide v-for="(item,key) in postimages" :key="key">
             <div v-if="key===0">
@@ -30,8 +38,6 @@
             </div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
-          <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
-          <!-- <div class="swiper-button-next" slot="button-next"></div> -->
         </swiper>
       </div>
       <div class="post_textbox" v-if="postInfo.type!==1">
@@ -52,6 +58,9 @@ export default {
     }
   },
   computed: {
+    getCurrentUser() {
+      return this.$store.state.user.currentUser;
+    },
     postimages() {
       const imagesJson = JSON.parse(this.postInfo.photo);
       console.log("images", imagesJson);
@@ -79,11 +88,15 @@ export default {
       }
     };
   },
-  methods: {}
+  methods: {
+    get_fromTime(time) {
+      return fromNow(time);
+    }
+  }
 };
 </script>
 <style scoped>
-.text_left_nickname{
+.text_left_nickname {
   font-size: 12px;
   font-weight: bold;
   color: #262626;
@@ -114,10 +127,10 @@ export default {
   justify-content: flex-start;
 }
 .avatar {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   margin-left: 20px;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 .avatar img {
   height: 100%;
@@ -128,7 +141,7 @@ export default {
   color: #262626;
   font-weight: 600;
   font-family: "PingFang SC";
-  font-size: 15px;
+  font-size: 14px;
 }
 .mainbox {
   width: 100%;
@@ -158,5 +171,23 @@ export default {
   font-size: 10px;
   color: #666;
   margin-right: 20px;
+}
+.popover_content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.popover_content .title {
+  color: #262626;
+  font-size: 12px;
+  font-weight: bold;
+}
+.popover_content .login_time {
+  color: #666;
+  font-size: 12px;
+}
+.popover_content .login_time span {
+  font-weight: bold;
 }
 </style>

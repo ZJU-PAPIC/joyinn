@@ -35,6 +35,11 @@ const register_user =
 VALUES \
 (?,?,?,?,?,?,0)";
 
+const update_logintime =
+  "UPDATE user \
+SET last_login_time = now() \
+WHERE uid=?";
+
 module.exports = {
   all_personal_says,
   get_one_say,
@@ -42,5 +47,6 @@ module.exports = {
   my_user_info_with_password,
   post_say,
   is_exist_user,
-  register_user
+  register_user,
+  update_logintime
 };
