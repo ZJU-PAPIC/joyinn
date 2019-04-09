@@ -13,6 +13,7 @@
           :autosize="{ minRows: 3}"
           placeholder="心情、故事、你在述说着什么"
           v-model="text"
+          wrap="hard"
           @change="handleTextChange"
         ></el-input>
         <div class="text_strict">字数限制：{{text.length}}/200</div>

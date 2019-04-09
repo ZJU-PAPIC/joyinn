@@ -60,8 +60,6 @@ export default {
 .home {
   background-color: #fafafa;
 }
-.mainbody {
-}
 .saylist_box {
   margin-top: 50px;
 }

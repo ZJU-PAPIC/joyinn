@@ -28,7 +28,7 @@
     </div>
     <div class="mainbox">
       <div class="postimgbox" v-if="postInfo.type!==0">
-        <swiper :options="swiperOption" style="height: auto">
+        <swiper :options="swiperOption" style="height: auto;" ref="mySwiper" @lazyImageReady="handleLazy">
           <swiper-slide v-for="(item,key) in postimages" :key="key">
             <!-- 一种实现lazy load的方式 -->
             <!-- <div v-if="key===0">
@@ -38,20 +38,15 @@
               <img v-lazy="img_prefix + item" ref="imgSize">
             </div>-->
             <!-- 采用swiper自带的lazy load -->
-            <div v-if="key===0">
-              <img :src="img_prefix + item" ref="imgSize">
-            </div>
-            <div v-else>
-              <img :src="img_prefix + item" ref="imgSize" class="swiper-lazy">
-              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            </div>
+            <img :src="img_prefix + item" ref="imgSize" class="swiper-lazy">
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
       <div class="post_textbox" v-if="postInfo.type!==1">
         <span class="text_left_nickname">@{{postInfo.nick_name}}</span>
-        {{postInfo.say_text}}
+        <div v-html="handleSayText"></div>
       </div>
     </div>
   </div>
@@ -72,15 +67,23 @@ export default {
     },
     postimages() {
       const imagesJson = JSON.parse(this.postInfo.photo);
-      console.log("images", imagesJson);
       return imagesJson;
     },
     convertTime() {
       return fromNow(this.postInfo.post_time);
+    },
+    handleSayText() {
+      return this.postInfo.say_text.replace(/\n/gm, "<br/>");
+    },
+    swiper() {
+      console.log(this.$refs);
+      
+      return this.$refs.mySwiper.swiper;
     }
   },
   data() {
     return {
+      saytext: "",
       avatar_prefix: avatar_prefix,
       img_prefix: img_prefix,
       swiperOption: {
@@ -90,10 +93,6 @@ export default {
         effect: "fade",
         pagination: {
           el: ".swiper-pagination"
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
         }
       }
     };
@@ -101,6 +100,9 @@ export default {
   methods: {
     get_fromTime(time) {
       return fromNow(time);
+    },
+    handleLazy(){
+      this.swiper.updateAutoHeight(2600);
     }
   }
 };
