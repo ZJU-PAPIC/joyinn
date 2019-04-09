@@ -40,6 +40,23 @@ const update_logintime =
 SET last_login_time = now() \
 WHERE uid=?";
 
+const get_say_reply =
+"SELECT id,reply,uid,say_id,datetime,nick_name,gender,user_name,avatar,last_login_time,credit \
+FROM say_reply NATURAL JOIN user \
+WHERE say_id=? \
+ORDER BY datetime";
+
+const post_say_reply = 
+"INSERT INTO say_reply \
+(reply,uid,say_id) \
+VALUES \
+(?,?,?)";
+
+const get_one_say_reply = 
+"SELECT id,reply,uid,say_id,datetime,nick_name,gender,user_name,avatar,last_login_time,credit \
+FROM say_reply NATURAL JOIN user \
+WHERE id=?"
+
 module.exports = {
   all_personal_says,
   get_one_say,
@@ -48,5 +65,8 @@ module.exports = {
   post_say,
   is_exist_user,
   register_user,
-  update_logintime
+  update_logintime,
+  get_say_reply,
+  post_say_reply,
+  get_one_say_reply
 };
