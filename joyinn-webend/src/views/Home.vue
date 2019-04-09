@@ -60,8 +60,6 @@ export default {
 .home {
   background-color: #fafafa;
 }
-.mainbody {
-}
 .saylist_box {
   margin-top: 50px;
 }
@@ -76,7 +74,7 @@ export default {
 }
 .handle_box {
   background-color: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   height: 200px;

@@ -35,7 +35,6 @@ export default new Vuex.Store({
     },
     async readSays({ commit }) {
       const res = await axios.get("say/");
-      console.log("res", res);
       if (res.data.code === 0) {
         commit("setSays", res.data.says);
       } else {

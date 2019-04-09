@@ -10,13 +10,10 @@ const {
   my_user_info,
   my_user_info_with_password,
   is_exist_user,
-  register_user
+  register_user,
+  update_logintime
 } = require("../query/sql-words");
 
-/* GET users listing. */
-router.get("/", function(req, res, next) {
-  res.send("respond with a resource");
-});
 router.get("/getuserinfo", async (req, res) => {
   console.log(req.user);
   const userinfo = await query(my_user_info, [req.user.aud]);
@@ -103,6 +100,9 @@ router.post("/login", async function(req, res, next) {
         expiresIn: 60 * 60 * 24
       }
     );
+    // update last login time
+    await query(update_logintime,[userinfo_pw[0].uid]);
+    // get userinfo
     const userinfo = await query(my_user_info, [username]);
     res.json({
       code: 0,
