@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
+import Lab from "./views/Lab.vue";
 import Auth from "./utils/auth";
 import axios from "./plugins/axios";
 import store from "./store";
@@ -23,6 +24,14 @@ let router = new Router({
       path: "/login",
       name: "login",
       component: Login,
+      meta: {
+        requireAuth: false
+      }
+    },
+    {
+      path: "/lab",
+      name: "lab",
+      component: Lab,
       meta: {
         requireAuth: false
       }
