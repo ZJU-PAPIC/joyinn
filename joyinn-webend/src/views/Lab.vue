@@ -14,7 +14,7 @@
               </a>
             </div>
             <div class="describe_box">
-              <el-button plain @click="expLab(key+1)" circle :disabled="!item.valid">
+              <el-button plain @click="expLab(key)" circle :disabled="!item.valid">
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
               </el-button>
             </div>
@@ -54,6 +54,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    expLab(num) {
+      this.$router.push(this.projects[num].linkto);
+    }
   }
 };
 </script>

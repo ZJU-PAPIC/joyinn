@@ -14,7 +14,7 @@
         ></el-input>
       </el-col>
       <el-col :span="6" class="v_center">
-        <el-dropdown @command="handleCommand" :placement="bottom-start">
+        <el-dropdown @command="handleCommand" placement="bottom">
           <span class="el-dropdown-link">
             <i class="fa fa-bars" aria-hidden="true"></i>
           </span>
@@ -28,7 +28,7 @@
     </el-row>
     <el-row v-else>
       <el-col :span="6">
-        <el-button plain @click="gotoHome" circle>
+        <el-button plain @click="goWhere" circle>
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </el-button>
         <span class="headTitle">{{title}}</span>
@@ -48,9 +48,13 @@ export default {
       type: String,
       default: ""
     },
-     memo: {
+    memo: {
       type: String,
       default: ""
+    },
+    historyOn: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -77,6 +81,13 @@ export default {
     },
     gotoLab() {
       this.$router.push("/lab");
+    },
+    goWhere() {
+      if (this.historyOn) {
+        this.$router.go(-1);
+      } else {
+        this.gotoHome();
+      }
     }
   },
   computed: {
@@ -124,15 +135,15 @@ el-col {
 .menu-i {
   font-size: 25px;
 }
-.headTitle{
+.headTitle {
   font-size: 15px;
   font-weight: bold;
   color: #4a5a6a;
-  margin-left:20px;
+  margin-left: 20px;
 }
-.headMemo{
+.headMemo {
   font-size: 12px;
   color: #7a8a9a;
-  margin-left:10px;
+  margin-left: 10px;
 }
 </style>

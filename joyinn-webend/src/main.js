@@ -7,6 +7,13 @@ import store from "./store";
 import "./plugins/element.js";
 import VueAwesomeSwiper from "vue-awesome-swiper";
 import moment from "moment";
+import VueQuillEditor from "vue-quill-editor";
+
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+
+Vue.use(VueQuillEditor);
 
 // for img lazyload
 Vue.use(VueLazyload, {
