@@ -1,5 +1,5 @@
 <template>
-  <div class="infocard">
+  <div class="infocard" @click="handleClick">
     <div class="avatar">
       <img :src="avatar_prefix + getMyInfo.avatar">
     </div>
@@ -16,6 +16,14 @@ export default {
   data() {
     return {
       avatar_prefix
+    };
+  },
+  methods: {
+    handleClick: function() {
+      // open new page and direct to account page
+      const { user_name } = this.getMyInfo;
+      let routeData = this.$router.resolve({ path: "/account/edit" });
+      window.open(routeData.href, "_blank");
     }
   },
   computed: {
@@ -35,6 +43,7 @@ export default {
   height: 80px;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 }
 .avatar {
   width: 50px;
