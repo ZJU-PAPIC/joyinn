@@ -27,7 +27,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
   next();
 });
 // jwt auth
@@ -35,7 +38,12 @@ app.use(
   expressJWT({
     secret: myconfig.jwtSecret
   }).unless({
-    path: ["/user/login","/user/register"] //除了这个地址，其他的URL都需要验证
+    path: [
+      "/user/login",
+      "/user/register",
+      "/user/mailtozju",
+      "/user/checkvalidcode"
+    ] //除了这个地址，其他的URL都需要验证
   })
 );
 // log debug
@@ -50,8 +58,8 @@ app.use((req, res, next) => {
 // router
 app.use("/", indexRouter);
 app.use("/user", userRouter);
-app.use('/say',sayRouter); //个人动态
-app.use('/upload',uploadRouter);
+app.use("/say", sayRouter); //个人动态
+app.use("/upload", uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

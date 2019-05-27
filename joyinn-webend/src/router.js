@@ -2,6 +2,9 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
+import Lab from "./views/Lab.vue";
+import EssayEdit from "./views/EssayEdit.vue";
+import AccountView from "./views/AccountView.vue";
 import Auth from "./utils/auth";
 import axios from "./plugins/axios";
 import store from "./store";
@@ -25,6 +28,30 @@ let router = new Router({
       component: Login,
       meta: {
         requireAuth: false
+      }
+    },
+    {
+      path: "/lab",
+      name: "lab",
+      component: Lab,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: "/essay/edit",
+      name: "essayedit",
+      component: EssayEdit,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: "/account/edit",
+      name: "accountview",
+      component: AccountView,
+      meta: {
+        requireAuth: true
       }
     }
   ]

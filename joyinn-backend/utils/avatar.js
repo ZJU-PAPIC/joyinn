@@ -6,7 +6,7 @@ class Avatar {
       "cardinal",
       "cat",
       "chicken",
-      "crow",
+      "cow",
       "crab",
       "dachshund",
       "dog",

@@ -42,9 +42,12 @@
             <div v-if="key!==0">
               <img v-lazy="img_prefix + item" ref="imgSize">
             </div>-->
-            <!-- 采用swiper自带的lazy load -->
+            <!-- 采用swiper自带的lazy load 
+            暂时关闭lazy load
             <img :src="img_prefix + item" ref="imgSize" class="swiper-lazy">
             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            -->
+            <img :src="img_prefix + item">
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -56,17 +59,23 @@
       <div class="check_reply" @click="checkReply">{{checkreply_text}}</div>
       <div class="sayreply" v-if="reply_status===1">
         <div class="reply_showbox" v-for="(item,key) in replies" :key="key">
-          <el-popover placement="right" width="200" trigger="hover">
-            <span class="text_left_nickname" slot="reference">{{item.nick_name}}</span>
-            <div class="popover_content">
-              <div class="title">@{{item.nick_name}}</div>
-              <div class="login_time">
-                <span>最后一次登录：</span>
-                {{get_fromTime(item.last_login_time)}}
+          <div v-if="item.uid !== getCurrentUser.uid">
+            <el-popover placement="right" width="200" trigger="hover">
+              <span class="text_left_nickname" slot="reference">{{item.nick_name}}</span>
+              <div class="popover_content">
+                <div class="title">@{{item.nick_name}}</div>
+                <div class="login_time">
+                  <span>最后一次登录：</span>
+                  {{get_fromTime(item.last_login_time)}}
+                </div>
               </div>
-            </div>
-          </el-popover>
-          {{item.reply}}
+            </el-popover>
+            {{item.reply}}
+          </div>
+          <div v-else>
+            <span class="text_left_nickname">{{item.nick_name}}</span>
+            {{item.reply}}
+          </div>
         </div>
         <div class="last_reply_datetime">{{handleLastReplyDatetime}}</div>
       </div>
@@ -122,7 +131,7 @@ export default {
       avatar_prefix: avatar_prefix,
       img_prefix: img_prefix,
       swiperOption: {
-        lazy: true, // lazy load picture
+        //lazy: true, // lazy load picture
         autoHeight: true, //enable auto height
         spaceBetween: 30,
         effect: "fade",
@@ -182,6 +191,9 @@ export default {
         .then(res => {
           this.replies.push(res.data.reply);
           this.replytext = "";
+          if (this.reply_status === 0) {
+            this.checkReply();
+          }
         })
         .catch(err => {
           console.log(err);
