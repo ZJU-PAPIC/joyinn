@@ -1,4 +1,4 @@
-const basic_url = "http://localhost:3000/";
+const basic_url = "http://qcw.zju.edu.cn:9000/";
 
 const img_prefix = basic_url + "uploads/img/";
 const avatar_prefix = basic_url + "uploads/avatar/";
